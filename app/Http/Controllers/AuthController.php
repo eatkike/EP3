@@ -38,7 +38,7 @@ class AuthController extends Controller
         //Iniciar sesión automáticamente
         auth()->login($usuario);
 
-        return redirect()->route('usuarios.index')->with('success', 'Registro exitoso. Bienvenido, ' . $usuario->nombre . '!');
+        return redirect()->route('dashboard.index')->with('success', 'Registro exitoso. Bienvenido, ' . $usuario->nombre . '!');
     }
 
     //Metodo para mostrar formulario de inicio de sesion
@@ -68,9 +68,8 @@ class AuthController extends Controller
             $request->session()->regenerate();
             
             //Redireccionar a la pagina de usuarios con mensaje de exito
-            return redirect()->route('usuarios.index')
-            ->with('success', 'Inicio de sesión exitoso. Bienvenido,
-             ' . Auth::user()->nombre . '!');
+            return redirect()->route('dashboard.index')
+            ->with('success', 'Inicio de sesión exitoso. Bienvenido, ' . Auth::user()->nombre . '!');
         }
 
         //Si falla, retornar con error

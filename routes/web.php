@@ -10,30 +10,16 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    //Ruta para obtener los metodos de UsuariosController
-    Route::resource('usuarios',UsuariosController::class);
+    Route::get('/dashboard', function () {
+        return view('dashboard.index');
+    })->name('dashboard.index');
+    
+    // Gestión de Usuarios
+    Route::resource('usuarios', UsuariosController::class);
+    
+    // Gestión de Mascotas
+    Route::resource('mascotas', \App\Http\Controllers\MascotasController::class);
 });
-
-// Ruta para ver la lista de usuarios
-Route::get('/usuarios', [UsuariosController::class, 'index'])->name('usuarios.index');
-
-// Ruta para ver el formulario de creación
-Route::get('/usuarios/create', [UsuariosController::class, 'create'])->name('usuarios.create');
-
-// Ruta para recibir los datos del formulario (POST)
-Route::post('/usuarios', [UsuariosController::class, 'store'])->name('usuarios.store');
-
-// Ruta para mostrar el formulario de edición (necesitamos el ID)
-Route::get('/usuarios/{id}/edit', [UsuariosController::class, 'edit'])->name('usuarios.edit');
-
-// Ruta para procesar la actualización
-Route::put('/usuarios/{id}', [UsuariosController::class, 'update'])->name('usuarios.update');
-
-// Ruta para eliminar
-Route::delete('/usuarios/{id}', [UsuariosController::class, 'destroy'])->name('usuarios.destroy');
-
-
-Route::get('/usuarios/{id}', [UsuariosController::class, 'show'])->name('usuarios.show');
 
 //Ruta para mostrar el formulario de registro
 Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
