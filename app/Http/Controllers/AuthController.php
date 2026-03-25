@@ -33,6 +33,7 @@ class AuthController extends Controller
             'apellido' => '', // Campo requerido pero no está en el formulario
             'email' => $request->email,
             'password' => $request->password, //El mutador encriptará automáticamente
+            'is_admin' => $request->has('is_admin') , // Si el checkbox 'is_admin' está marcado, se asigna true, de lo contrario false
         ]);
 
         //Iniciar sesión automáticamente
@@ -87,5 +88,10 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         
         return redirect()->route('login')->with('success', 'Sesión cerrada correctamente.');
+    }
+
+    public function adminDashboard(){
+    return view('admin.dashboard'); 
+
     }
 }
