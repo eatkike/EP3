@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class AdminMiddleware
+
+class VerificaUsuario
 {
     /**
      * Handle an incoming request.
@@ -16,9 +17,12 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) {
-            return redirect()->route('registro')->with('error', 'Se debe registrar primero');
-        }
+
+            if (!Auth::check()) {
+                return redirect()->route('registro')->with('error', 'Debes registrarte e iniciar sesión para acceder a esta página.');
+            }
+
+    //No borrar
         return $next($request);
     }
 }
