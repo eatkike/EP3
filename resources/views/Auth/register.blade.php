@@ -44,13 +44,14 @@
                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Registrar</button>
+                         <!-- <div class="form-check">
+            <input type="checkbox" name="is_admin" value="1" class="form-check-input">
+            <label class="form-check-label" for="is_admin">Registrar como Administrador</label>
+        </div> -->
                     </form>
                 </div>
                
-                <div class="form-check">
-            <input type="checkbox" name="is_admin" value="1" class="form-check-input">
-            <label class="form-check-label" for="is_admin">Registrar como Administrador</label>
-        </div>
+               
                 
                 <div class="card-footer text-center">
                     <p class="mb-0">¿Ya tienes cuenta? <a href="{{ route('login') }}">Iniciar Sesión</a></p>

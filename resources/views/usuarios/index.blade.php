@@ -14,10 +14,12 @@
     <a href="{{ route('usuarios.create') }}" class="btn btn-primary">
         <i class="fa-solid fa-user-plus"></i> Registrar Nuevo
     </a>
+     <a href="{{ route('dashboard.index') }}" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
+    </a>
     <form action="{{ route('logout') }}" method="POST">
             @csrf
-            <button type="submit" class="btn btn-danger mb-3"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button>
-        </form>
+          
 </div>
 
 
@@ -49,11 +51,16 @@
             </td>
         </tr>
         @endforeach
+        
     </tbody>
 </table>
-@endsection
 
         </tbody>
-
+<form action="{{ route('logout') }}" method="POST" style="display:inline;">
+    @csrf
+    <button type="submit" class="btn btn-danger mb-3"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button>
+</form>
+@endsection
 </body>
+
 </html>

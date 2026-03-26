@@ -67,11 +67,19 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             //Regenerar la sesión para seguridad
             $request->session()->regenerate();
-            
-            //Redireccionar a la pagina de usuarios con mensaje de exito
-            return redirect()->route('dashboard.index')
+
+            $user = Auth::user();
+
+            if($user->is_admin){
+                return redirect()->route('dashboard.index')->with('success', 'Inicio de sesión exitoso. Bienvenido, Admin ' . $user->nombre . '!');
+            } else {
+            return redirect()->route('mascotas.index')
             ->with('success', 'Inicio de sesión exitoso. Bienvenido, ' . Auth::user()->nombre . '!');
         }
+            }
+            
+            //Redireccionar a la pagina de usuarios con mensaje de exito
+           
 
         //Si falla, retornar con error
         return back()->withErrors([

@@ -42,6 +42,10 @@
         <button type="submit" class="btn btn-success">Guardar Usuario</button>
         <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">Cancelar</a>
     </div>
+     <div class="form-check">
+            <input type="checkbox" name="is_admin" value="1" class="form-check-input">
+            <label class="form-check-label" for="is_admin">Registrar como Administrador</label>
+        </div>
 </form>
 @endsection
 </body>
