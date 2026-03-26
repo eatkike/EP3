@@ -6,9 +6,12 @@
     <a href="{{ route('mascotas.create') }}" class="btn btn-primary">
         <i class="fa-solid fa-plus"></i> Registrar Nueva Mascota
     </a>
+    @if (auth()->check() && auth()->user()->is_admin)
+
     <a href="{{ route('dashboard.index') }}" class="btn btn-secondary">
         <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
     </a>
+    @endif
 </div>
 
 @if (session('success'))

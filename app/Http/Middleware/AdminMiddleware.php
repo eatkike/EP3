@@ -17,8 +17,36 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect()->route('registro')->with('error', 'Se debe registrar primero');
+            return redirect()->route('login')->with('error', 'Se debe iniciar sesión primero');
         }
-        return $next($request);
+
+        if (Auth::check() && Auth::user()->is_admin) {
+            return $next($request);
+        }
+        return redirect()->route('mascotas.index')
+            ->with('error', 'No tienes permisos de administrador para acceder a esta sección.');
+
+
+{
+
+    
+}
+
+
+
     }
 }
+{
+    // Si el usuario está logueado Y es admin, lo dejamos pasar
+        if (Auth::check() && Auth::user()->is_admin) {
+            return $next($request);
+        }
+
+        // Si no es admin, lo mandamos a la lista de mascotas con un error
+        return redirect()->route('mascotas.index')
+            ->with('error', 'No tienes permisos de administrador para acceder a esta sección.');
+    
+}
+
+
+
