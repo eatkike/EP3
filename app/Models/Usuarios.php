@@ -19,11 +19,11 @@ class Usuarios extends Authenticatable
         'apellido', 
         'email', 
         'password',
-        'is_admin', // Agregar el campo is_admin a los campos asignables
+        'is_admin', 
     ];
 
     protected $casts = [
-        'is_admin' => 'boolean', // Asegurar que is_admin se trate como booleano
+        'is_admin' => 'boolean',
     ];
 
     

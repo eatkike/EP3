@@ -8,19 +8,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// --- RUTAS PÚBLICAS (Login y Registro) ---
+
 Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
+
 Route::post('/register', [AuthController::class, 'register'])->name('register.store');
+
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
+
 Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// --- RUTAS PARA CUALQUIER USUARIO LOGUEADO ---
 Route::middleware('auth')->group(function () {
     Route::resource('mascotas', \App\Http\Controllers\MascotasController::class);
 });
 
-// --- RUTAS EXCLUSIVAS PARA ADMINISTRADORES ---
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard.index');
