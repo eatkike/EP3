@@ -25,16 +25,31 @@ class AuthController extends Controller
             'phone' => 'nullable|string|max:20',
             'password' => 'required|string|min:6|confirmed',
         ]);
-        
-        //Crear el usuario en la tabla usuarios con contraseña encriptada
-        //Usamos 'name' del formulario como 'nombre' en la tabla
+
+
+        $usuariosRegistrados = Usuarios::count();
+        if ($usuariosRegistrados == 0) {
+            $isAdmin = true; // El primer usuario registrado será admin
+        } else {            $isAdmin = false; // Los siguientes usuarios no serán admin
+        }
+
         $usuario = Usuarios::create([
             'nombre' => $request->name,
             'apellido' => '', // Campo requerido pero no está en el formulario
             'email' => $request->email,
             'password' => $request->password, //El mutador encriptará automáticamente
-            'is_admin' => $request->has('is_admin') , // Si el checkbox 'is_admin' está marcado, se asigna true, de lo contrario false
+            'is_admin' => $isAdmin, // Asignar admin al primer usuario registrado
         ]);
+
+        auth()->login($usuario);
+
+        if($usuario->is_admin){
+            return redirect()->route('dashboard.index')->with('success', 'Registro exitoso. Bienvenido, Admin ' . $usuario->nombre . '!');
+        } else {
+        return redirect()->route('mascotas.index')->with('success', 'Registro exitoso. Bienvenido, ' . $usuario->nombre . '!');
+    }
+    
+
 
         //Iniciar sesión automáticamente
         auth()->login($usuario);
