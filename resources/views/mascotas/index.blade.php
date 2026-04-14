@@ -3,15 +3,16 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2><i class="fa-solid fa-paw"></i> Lista de Mascotas</h2>
-    <a href="{{ route('mascotas.create') }}" class="btn btn-primary">
-        <i class="fa-solid fa-plus"></i> Registrar Nueva Mascota
-    </a>
-    @if (auth()->check() && auth()->user()->is_admin)
-
-    <a href="{{ route('dashboard.index') }}" class="btn btn-secondary">
-        <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
-    </a>
-    @endif
+    <div class="d-flex gap-2">
+        <a href="{{ route('mascotas.create') }}" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> Registrar Nueva Mascota
+        </a>
+        @if (auth()->check() && auth()->user()->is_admin)
+            <a href="{{ route('dashboard.index') }}" class="btn btn-secondary">
+                <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
+            </a>
+        @endif
+    </div>
 </div>
 
 @if (session('success'))
@@ -42,9 +43,16 @@
             <td>{{ $mascota->tamano }}</td>
             <td><span class="badge {{ $mascota->estado == 'Disponible' ? 'bg-success' : 'bg-secondary' }}">{{ $mascota->estado }}</span></td>
             <td class="text-center">
+                {{-- BOTÓN DE ADOPCIÓN (Para todos los usuarios logueados) --}}
+                <a href="{{ route('solicitudes.create', ['mascota_id' => $mascota->id]) }}" class="btn btn-success btn-sm">
+                    <i class="fa-solid fa-heart"></i> Adoptar
+                </a>
+
+                {{-- ACCIONES DE EDICIÓN Y BORRADO (Opcional: puedes envolver esto en un @if admin) --}}
                 <a href="{{ route('mascotas.edit', $mascota->id) }}" class="btn btn-warning btn-sm">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </a>
+                
                 <form action="{{ route('mascotas.destroy', $mascota->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar esta mascota?')">
                     @csrf
                     @method('DELETE')
@@ -62,6 +70,7 @@
     </tbody>
 </table>
 
+{{-- El logout se queda aquí fuera, eso está bien --}}
 <form action="{{ route('logout') }}" method="POST" style="display:inline;">
     @csrf
     <button type="submit" class="btn btn-danger mb-3"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button>

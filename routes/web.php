@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SolicitudController;
+use App\Http\Controllers\MascotasController;
 
 Route::get('/', function () {
     return view('Auth.login');

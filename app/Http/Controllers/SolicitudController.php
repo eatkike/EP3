@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Solicitud;
 use Illuminate\Http\Request;
+use App\Models\Mascota;
+use Illuminate\Support\Facades\Auth;
+
 
 class SolicitudController extends Controller
 {
@@ -11,15 +15,31 @@ class SolicitudController extends Controller
      */
     public function index()
     {
-        //
+        if (Auth::user()->is_admin) {
+            // El admin ve quién quiere adoptar a quién
+            $solicitudes = Solicitud::with(['usuario', 'mascota'])->latest()->get();
+        } else {
+            // El usuario común solo ve su historial
+            $solicitudes = Solicitud::where('usuario_id', Auth::id())
+                ->with('mascota')
+                ->latest()
+                ->get();
+        }
+
+        return view('solicitudes.index', compact('solicitudes'));
+    
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $mascota_id = $request->query('mascota_id');
+        $mascota = Mascota::findOrFail($mascota_id);
+
+        return view('solicitudes.create', compact('mascota'));
+        
     }
 
     /**
@@ -27,7 +47,19 @@ class SolicitudController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'mascota_id' => 'required|exists:mascotas,id',
+            'motivo' => 'required|string|max:1000',
+        ]);
+
+        Solicitud::create([
+            'usuario_id' => Auth::id(),
+            'mascota_id' => $request->mascota_id,
+            'motivo' => $request->motivo,
+            'estado' => 'Pendiente',
+        ]);
+
+        return redirect()->route('solicitudes.index')->with('success', 'Solicitud enviada con éxito.');
     }
 
     /**
@@ -51,7 +83,19 @@ class SolicitudController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if (!Auth::user()->is_admin) {
+            abort(403, 'No autorizado');
+        }
+
+    $request->validate([
+            'estado' => 'required|in:Pendiente,Aprobada,Rechazada',
+        ]);
+
+        $solicitud = Solicitud::findOrFail($id);
+        $solicitud->update(['estado' => $request->estado]);
+
+        return redirect()->route('solicitudes.index')
+            ->with('success', 'El estado de la solicitud ha sido actualizado.');
     }
 
     /**
@@ -59,6 +103,16 @@ class SolicitudController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $solicitud = Solicitud::findOrFail($id);
+        
+        // Solo el dueño de la solicitud o el admin pueden borrarla
+        if (Auth::id() !== $solicitud->usuario_id && !Auth::user()->is_admin) {
+            return abort(403);
+        }
+
+        $solicitud->delete();
+
+        return redirect()->route('solicitudes.index')
+            ->with('success', 'Solicitud eliminada correctamente.');
     }
 }

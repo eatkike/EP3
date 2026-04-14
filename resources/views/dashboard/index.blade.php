@@ -15,15 +15,26 @@
                     </a>
                 </div>
                 <div class="col-md-6">
-                    <a href="{{ route('mascotas.index') }}" class="btn btn-success btn-lg w-100 h-100 p-4">
+                    <a href="{{ route('mascotas.index') }}" class="btn btn-info btn-lg w-100 h-100 p-4">
                         <i class="fa-solid fa-paw fa-2x mb-3 d-block"></i>
                         <h3>Gestión de Mascotas</h3>
                         <p>Ver, editar, eliminar y registrar nuevas mascotas en adopción</p>
                     </a>
                 </div>
+            
+
+            <div class="col-md-6">
+                    <a href="{{ route('solicitudes.index') }}" class="btn btn-success btn-lg w-100 h-100 p-4">
+                        <i class="fa-solid fa-envelope-open-text fa-2x mb-3 d-block"></i>
+                        <h3>Gestión de Solicitudes</h3>
+                        <p>Ver, editar, eliminar y registrar nuevas solicitudes de adopción</p>
+                    </a>
+                </div>
+            </div>
             </div>
 
             <div class="mt-5">
+                
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-danger btn-lg">
