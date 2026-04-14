@@ -26,7 +26,7 @@ class SolicitudController extends Controller
                 ->get();
         }
 
-        return view('solicitudes.index', compact('solicitudes'));
+        return view('solicitud.index', compact('solicitudes'));
     
     }
 
@@ -59,7 +59,7 @@ class SolicitudController extends Controller
             'estado' => 'Pendiente',
         ]);
 
-        return redirect()->route('solicitudes.index')->with('success', 'Solicitud enviada con éxito.');
+        return redirect()->route('solicitud.index')->with('success', 'Solicitud enviada con éxito.');
     }
 
     /**
