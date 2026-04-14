@@ -38,7 +38,7 @@ class SolicitudController extends Controller
         $mascota_id = $request->query('mascota_id');
         $mascota = Mascota::findOrFail($mascota_id);
 
-        return view('solicitudes.create', compact('mascota'));
+        return view('solicitud.create', compact('mascota'));
         
     }
 
@@ -59,7 +59,7 @@ class SolicitudController extends Controller
             'estado' => 'Pendiente',
         ]);
 
-        return redirect()->route('solicitud.index')->with('success', 'Solicitud enviada con éxito.');
+        return redirect()->route('solicitudes.index')->with('success', 'Solicitud enviada con éxito.');
     }
 
     /**

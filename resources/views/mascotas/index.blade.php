@@ -7,6 +7,9 @@
         <a href="{{ route('mascotas.create') }}" class="btn btn-primary">
             <i class="fa-solid fa-plus"></i> Registrar Nueva Mascota
         </a>
+        <a href="{{ route('solicitudes.index') }}" class="btn btn-info shadow-sm">
+    <i class="fa-solid fa-envelope-open-text me-1"></i> Ver Solicitudes
+    </a>
         @if (auth()->check() && auth()->user()->is_admin)
             <a href="{{ route('dashboard.index') }}" class="btn btn-secondary">
                 <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
@@ -66,11 +69,11 @@
         <tr>
             <td colspan="8" class="text-center py-4">No hay mascotas registradas aún.</td>
         </tr>
+        
         @endforelse
     </tbody>
 </table>
 
-{{-- El logout se queda aquí fuera, eso está bien --}}
 <form action="{{ route('logout') }}" method="POST" style="display:inline;">
     @csrf
     <button type="submit" class="btn btn-danger mb-3"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('solicitudes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('usuario_id')->constrained()->onDelete('cascade');
             $table->foreignId('mascota_id')->constrained('mascotas')->onDelete('cascade');
             $table->text('motivo'); // ¿Por qué quiere adoptar?
             $table->string('estado')->default('Pendiente');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('solicituds');
+        Schema::dropIfExists('solicitudes');
     }
 };
