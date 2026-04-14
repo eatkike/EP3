@@ -32,4 +32,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     
     Route::get('/admin-dashboard', [AuthController::class, 'adminDashboard'])
         ->name('admin.dashboard');   
+
+});
+
+Route::middleware('auth')->group(function () {
+    Route::resource('solicitudes', SolicitudController::class);
 });
