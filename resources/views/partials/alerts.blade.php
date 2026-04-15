@@ -17,3 +17,12 @@
     </script>
 
 @endif
+
+{{-- Alerta de Advertencia (Warning) --}}
+@if(session('warning'))
+    <div class="alert alert-warning alert-dismissible d-flex align-items-center fade show">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+        <strong class="mx-2">Atención</strong> {{ session('warning') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif

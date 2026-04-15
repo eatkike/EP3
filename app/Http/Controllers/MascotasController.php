@@ -89,7 +89,14 @@ class MascotasController extends Controller
     public function destroy(string $id)
     {
         $mascota = Mascota::findOrFail($id);
+
+        if ($mascota->estado == 'adoptada') {
+            return redirect()->route('mascotas.index')
+                             ->with('warning', '¡Atención! No puedes eliminar una mascota que ya fue adoptada.');
+        }
+
+        // Si pasa la validación anterior, la borramos y mandamos el success normal
         $mascota->delete();
-        return redirect()->route('mascotas.index')->with('success', 'Mascota eliminada exitosamente!');
-    }
+        return redirect()->route('mascotas.index')->with('success', 'Mascota eliminada exitosamente!');    
+        }
 }
