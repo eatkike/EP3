@@ -22,9 +22,21 @@
     <div class="alert alert-success">{{ session('success') }}</div>
 @endif
 
+@if($animalApi)
+<div class="card shadow border-0 mb-4">
+    <div class="card-body">
+        <h3>🐾 Dato curioso del {{ $animalApi['name'] }}</h3>
+        <p><strong>Dieta:</strong> {{ $animalApi['characteristics']['diet'] ?? 'No disponible' }}</p>
+        <p><strong>Hábitat:</strong> {{ $animalApi['characteristics']['habitat'] ?? 'No disponible' }}</p>
+        <p><strong>Vida promedio:</strong> {{ $animalApi['characteristics']['lifespan'] ?? 'No disponible' }}</p>
+    </div>
+</div>
+@endif
+
 <table class="table table-hover">
     <thead class="table-dark">
         <tr>
+            <th>Foto</th>
             <th>Nombre</th>
             <th>Especie</th>
             <th>Raza</th>
@@ -38,6 +50,7 @@
     <tbody>
         @forelse($mascotas as $mascota)
         <tr>
+            <td><img src="{{ $mascota->foto }}" width="80" height="80" style="object-fit: cover; border-radius: 10px;"></td>
             <td>{{ $mascota->nombre }}</td>
             <td>{{ $mascota->especie }}</td>
             <td>{{ $mascota->raza }}</td>

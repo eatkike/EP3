@@ -10,10 +10,16 @@
     @extends('layouts.app')
 
 @section('content')
-<div class="mb-4">
-    <h2><i class="fa-solid fa-user-plus"></i> Nuevo Registro</h2>
-    <hr>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">
+        <i class="fas fa-user-plus"></i> Nuevo Registro
+    </h2>
+
+    <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Volver
+    </a>
 </div>
+<hr>
 
 <form action="{{ route('usuarios.store') }}" method="POST">
     @csrf

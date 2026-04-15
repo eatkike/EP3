@@ -1,10 +1,8 @@
 @if(session('success'))
     <div id="alerta" class="alert alert-success alert-dismissible d-flex align-items-center fade show">
         <i class="fa-solid fa-check-circle me-2"></i>
-        <strong class ="mx-2">Sesión iniciada! </strong> {{ session('success') }}
+        <strong class ="mx-2">Éxito </strong> {{ session('success') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-
     </div>
 
     <script>
@@ -17,7 +15,5 @@
         }, 4000);
 
     </script>
-
-
 
 @endif

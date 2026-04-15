@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use App\Models\Mascota;
 
 class MascotasController extends Controller
@@ -13,7 +14,21 @@ class MascotasController extends Controller
     public function index()
     {
         $mascotas = Mascota::all();
-        return view('mascotas.index', compact('mascotas'));
+        // aleatorio entre perro y gato
+        $animalRandom = rand(0, 1) ? 'dog' : 'cat';
+        
+        //Para animales aleatorios de la API de API Ninjas, se puede usar el siguiente código:
+        //$animalRandom = ['dog', 'cat', 'fox', 'rabbit'][array_rand(['dog', 'cat', 'fox', 'rabbit'])];
+        
+        // consumir API
+        $respuesta = Http::withHeaders([
+            'X-Api-Key' => config('services.api_ninjas.key')
+        ])->get("https://api.api-ninjas.com/v1/animals?name={$animalRandom}");
+
+        $datos = $respuesta->json();
+        $animalApi =  !empty($datos) ? $datos[array_rand($datos)] : null;
+
+        return view('mascotas.index', compact('mascotas', 'animalApi'));
     }
 
     /**
