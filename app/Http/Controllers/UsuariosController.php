@@ -19,18 +19,14 @@ class UsuariosController extends Controller
         return view('usuarios.index', compact('usuarios'));
     }
 
-    /**
-     * Mostrar vista para el registro de un nuevo usuario
-     */
+    /* Mostrar vista para el registro de un nuevo usuario */
     public function create()
     {
         //
         return view('usuarios.create');
     }
 
-    /**
-     * Guardar la informacion del nuevo usuario en la BD
-     */
+    /** Guardar la informacion del nuevo usuario en la BD*/
     public function store(Request $request)
     {
         //Validar los datos del formulario
@@ -47,9 +43,7 @@ class UsuariosController extends Controller
         return redirect()->route('usuarios.create')->with('success', 'Usuario registrado exitosamente!');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    /** Display the specified resource. */
     public function show(String $id)
     {
         $usuario = Usuarios::findOrFail($id);
