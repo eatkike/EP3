@@ -60,9 +60,15 @@
             <td><span class="badge {{ $mascota->estado == 'Disponible' ? 'bg-success' : 'bg-secondary' }}">{{ $mascota->estado }}</span></td>
             <td class="text-center">
                 {{-- BOTÓN DE ADOPCIÓN (Para todos los usuarios logueados) --}}
-                <a href="{{ route('solicitudes.create', ['mascota_id' => $mascota->id]) }}" class="btn btn-success btn-sm">
-                    <i class="fa-solid fa-heart"></i> Adoptar
-                </a>
+                @if($mascota->estado === 'Disponible')
+                    <a href="{{ route('solicitudes.create', ['mascota_id' => $mascota->id]) }}" class="btn btn-success btn-sm">
+                        <i class="fa-solid fa-heart"></i> Adoptar
+                    </a>
+                @else
+                    <button class="btn btn-secondary btn-sm" disabled>
+                        <i class="fa-solid fa-heart-crack"></i> Ya fue adoptada
+                    </button>
+                @endif
 
                 {{-- ACCIONES DE EDICIÓN Y BORRADO (Opcional: puedes envolver esto en un @if admin) --}}
                 <a href="{{ route('mascotas.edit', $mascota->id) }}" class="btn btn-warning btn-sm">

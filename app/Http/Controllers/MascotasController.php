@@ -75,9 +75,19 @@ class MascotasController extends Controller
     public function update(Request $request, string $id)
     {
         $mascota = Mascota::findOrFail($id);
-        
-        $request->validate(Mascota::rules(true, $id));
 
+        $request->validate(Mascota::rules(true, $id));
+        
+        $user = auth()->user();
+        
+        //Bloqueamos la edición si la mascota ya fue adoptada, solo si no es admin
+        if (!$user->is_admin) {
+            if ($mascota->estado === 'Adoptada' && $request->estado !== 'Adoptada') {
+                return redirect()->back()
+                    ->with('warning', 'No puedes cambiar el estado de una mascota adoptada.');
+            }
+        }
+    
         $mascota->update($request->all());
         
         return redirect()->route('mascotas.index')->with('success', 'Mascota actualizada exitosamente!');
@@ -88,12 +98,14 @@ class MascotasController extends Controller
      */
     public function destroy(string $id)
     {
+        
         $mascota = Mascota::findOrFail($id);
 
-        if ($mascota->estado == 'adoptada') {
+        if ($mascota->estado == 'Adoptada') {
             return redirect()->route('mascotas.index')
-                             ->with('warning', '¡Atención! No puedes eliminar una mascota que ya fue adoptada.');
+                            ->with('warning', '¡Atención! No puedes eliminar una mascota que ya fue adoptada.');
         }
+        
 
         // Si pasa la validación anterior, la borramos y mandamos el success normal
         $mascota->delete();
