@@ -16,10 +16,10 @@ class SolicitudController extends Controller
     public function index()
     {
         if (Auth::user()->is_admin) {
-            // El admin ve quién quiere adoptar a quién
+            
             $solicitudes = Solicitud::with(['usuario', 'mascota'])->latest()->get();
         } else {
-            // El usuario común solo ve su historial
+            
             $solicitudes = Solicitud::where('usuario_id', Auth::id())
                 ->with('mascota')
                 ->latest()
