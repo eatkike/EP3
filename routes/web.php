@@ -42,3 +42,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware('auth')->group(function () {
     Route::resource('solicitudes', SolicitudController::class);
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/mis-mascotas', [MascotasController::class, 'misMascotas'])
+        ->name('mascotas.mis');
+});

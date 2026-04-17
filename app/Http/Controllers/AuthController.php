@@ -6,6 +6,9 @@ use App\Models\Usuarios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AlertaLoginCorreo;
+
 
 class AuthController extends Controller
 {
@@ -48,9 +51,6 @@ class AuthController extends Controller
         } else {
         return redirect()->route('mascotas.index')->with('success', 'Registro exitoso. Bienvenido, ' . $usuario->nombre . '!');
     }
-    
-
-
         //Iniciar sesión automáticamente
         auth()->login($usuario);
 
@@ -85,17 +85,19 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
+            try {
+                \Mail::to($user->email)->send(new \App\Mail\AlertaLoginCorreo($user));
+            } catch (\Exception $e) {
+                \Log::error('Error enviando correo: ' . $e->getMessage());
+            }
+
             if($user->is_admin){
                 return redirect()->route('dashboard.index')->with('success', 'Inicio de sesión exitoso. Bienvenido, Admin ' . $user->nombre . '!');
             } else {
             return redirect()->route('mascotas.index')
             ->with('success', 'Inicio de sesión exitoso. Bienvenido, ' . Auth::user()->nombre . '!');
-        }
             }
-            
-            //Redireccionar a la pagina de usuarios con mensaje de exito
-           
-
+        }
         //Si falla, retornar con error
         return back()->withErrors([
             'email' => 'Las credenciales no coinciden con nuestros registros.',

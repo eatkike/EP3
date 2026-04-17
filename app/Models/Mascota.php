@@ -21,6 +21,7 @@ class Mascota extends Model
         'descripcion',
         'estado',
         'foto',
+        'user_id',
     ];
 
     public static function rules($isUpdate = false, $id = null)

@@ -7,6 +7,11 @@
         <a href="{{ route('mascotas.create') }}" class="btn btn-primary">
             <i class="fa-solid fa-plus"></i> Registrar Nueva Mascota
         </a>
+        @if(!auth()->user()->is_admin)
+            <a href="{{ route('mascotas.mis') }}" class="btn btn-dark">
+                Mis Mascotas
+            </a>
+        @endif
         <a href="{{ route('solicitudes.index') }}" class="btn btn-info shadow-sm">
     <i class="fa-solid fa-envelope-open-text me-1"></i> Ver Solicitudes
     </a>
@@ -70,18 +75,21 @@
                     </button>
                 @endif
 
-                {{-- ACCIONES DE EDICIÓN Y BORRADO (Opcional: puedes envolver esto en un @if admin) --}}
-                <a href="{{ route('mascotas.edit', $mascota->id) }}" class="btn btn-warning btn-sm">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-                
-                <form action="{{ route('mascotas.destroy', $mascota->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar esta mascota?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </form>
+                @if($mascota->user_id === auth()->id() || auth()->user()->is_admin)
+
+                    <a href="{{ route('mascotas.edit', $mascota->id) }}" class="btn btn-warning btn-sm">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+
+                    <form action="{{ route('mascotas.destroy', $mascota->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar esta mascota?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+
+                @endif
             </td>
         </tr>
         @empty

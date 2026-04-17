@@ -15,9 +15,6 @@
         <i class="fas fa-user-plus"></i> Nuevo Registro
     </h2>
 
-    <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">
-        <i class="fas fa-arrow-left"></i> Volver
-    </a>
 </div>
 <hr>
 
@@ -44,14 +41,20 @@
         <input type="password" name="password" class="form-control" required>
     </div>
 
+     {{-- SOLO ADMIN PUEDE CREAR OTROS ADMIN --}}
+    @if(auth()->check() && auth()->user()->is_admin)
+        <div class="form-check mb-3">
+            <input type="checkbox" name="is_admin" value="1" class="form-check-input" id="is_admin">
+            <label class="form-check-label" for="is_admin">
+                Registrar como Administrador
+            </label>
+        </div>
+    @endif
+
     <div class="d-flex gap-2">
         <button type="submit" class="btn btn-success">Guardar Usuario</button>
         <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">Cancelar</a>
     </div>
-     <div class="form-check">
-            <input type="checkbox" name="is_admin" value="1" class="form-check-input">
-            <label class="form-check-label" for="is_admin">Registrar como Administrador</label>
-        </div>
 </form>
 @endsection
 </body>

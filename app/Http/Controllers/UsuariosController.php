@@ -38,6 +38,7 @@ class UsuariosController extends Controller
             'apellido' => $request->apellido,
             'email' => $request->email,
             'password' => $request->password, //El mutador encriptará automáticamente
+            'is_admin' => $request->has('is_admin') ? 1 : 0,
         ]);
 
         return redirect()->route('usuarios.create')->with('success', 'Usuario registrado exitosamente!');

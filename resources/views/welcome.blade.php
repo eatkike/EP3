@@ -132,9 +132,7 @@
                     Ver otro dato
                 </a>
             </div>
-
         </div>
-
     </div>
     @endif
 

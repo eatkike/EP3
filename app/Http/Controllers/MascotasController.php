@@ -46,7 +46,18 @@ class MascotasController extends Controller
     {
         $request->validate(Mascota::rules());
 
-        Mascota::create($request->all());
+        Mascota::create([
+    'nombre' => $request->nombre,
+    'especie' => $request->especie,
+    'raza' => $request->raza,
+    'edad' => $request->edad,
+    'genero' => $request->genero,
+    'tamano' => $request->tamano,
+    'descripcion' => $request->descripcion,
+    'estado' => $request->estado,
+    'foto' => $request->foto,
+    'user_id' => auth()->id(),
+]);
 
         return redirect()->route('mascotas.index')->with('success', 'Mascota registrada exitosamente!');
     }
@@ -66,6 +77,9 @@ class MascotasController extends Controller
     public function edit(string $id)
     {
         $mascota = Mascota::findOrFail($id);
+        if ($mascota->user_id !== auth()->id() && !auth()->user()->is_admin) {
+            abort(403, 'No tienes permiso para editar esta mascota');
+        }
         return view('mascotas.edit', compact('mascota'));
     }
 
@@ -111,4 +125,17 @@ class MascotasController extends Controller
         $mascota->delete();
         return redirect()->route('mascotas.index')->with('success', 'Mascota eliminada exitosamente!');    
         }
+
+        public function misMascotas()
+        {
+            if(auth()->user()->is_admin){
+                // Admin ve TODAS
+                $mascotas = Mascota::all();
+            } else {
+                // Usuario normal solo las suyas
+                $mascotas = Mascota::where('user_id', auth()->id())->get();
+            }
+
+            return view('mascotas.mis', compact('mascotas'));
+                }
 }
